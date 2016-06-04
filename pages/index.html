@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome to Piper Push Cache</title>
+  </head>
+  <body>
+    <h1>Welcome to Piper Push Cache</h1>
+    <p style="margin:10px 40px">This instance has not been configured. To set up the server add pages to
+    the /piper/pages directory. The /piper/piper_cfg.json is for customizing
+    piper with setting for process flows, change logs, and other features.
+    </p>
+
+    <p style="margin:0px 40px;padding:10px 40px;background:#c0c0c0;width:100px" id="status"> ... </p>
+
+    <p id="message"> ... waiting ... </p>
+
+    <script type="text/javascript">
+      var sock;
+      var url = "ws://" + document.URL.split('/')[2]
+      if (typeof MozWebSocket != "undefined") {
+          sock = new MozWebSocket(url, "piper-protocol");
+      } else {
+          sock = new WebSocket(url, "piper-protocol");
+      }
+      sock.onopen = function() {
+          sock.send("subscribe *");
+          document.getElementById('status').textContent = 'Connected';
+          document.getElementById('status').style.backgroundColor = "#00c000";
+      }
+      sock.onclose = function() {
+          document.getElementById('status').textContent = 'Not Connected';
+          document.getElementById('status').style.backgroundColor = "#f04040";
+      }
+      sock.onmessage = function(msg) {
+          document.getElementById("message").textContent = msg.data;
+      }
+    </script>
+  </body>
+</html>

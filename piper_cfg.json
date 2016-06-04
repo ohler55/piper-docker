@@ -1,0 +1,117 @@
+{
+    "access": {
+	":7660": {
+	    "get": {
+		"*": {}
+	    },
+	    "put": {
+		"*": {}
+	    },
+	    "update": {
+		"*": {}
+	    },
+	    "delete": {
+		"*": {}
+	    },
+	    "admin": {
+		"*": {}
+	    }
+	}
+    },
+    "page": {
+	"dir": "/piper/pages"
+    },
+    "log": {
+	"stdout": true,
+	"publish": "log.piper",
+	"cat": {
+	    "ERROR": true,
+	    "CACHE": false,
+	    "REQUEST": false,
+	    "RESPONSE": false,
+	    "PUSH": false,
+	    "FLOW": false,
+	    "DEBUG": false
+	}
+    },
+    "push_connection_counts": false,
+    "sse": {
+	"heartbeat": 10.0
+    },
+    "flow": {
+	"dir": "flows",
+	"flows": {
+	    "chglog_cache": {
+		"trace": true,
+		"tasks": {
+		    "chglog": {
+			"trace": false
+		    },
+		    "cache": {
+			"trace": false
+		    }
+		}
+	    },
+	    "cache_only": {
+		"trace": true,
+		"tasks": {
+		    "cache": {
+			"trace": false
+		    }
+		}
+	    },
+	    "chglog_only": {
+		"trace": true,
+		"tasks": {
+		    "chglog": {
+			"trace": false
+		    }
+		}
+	    }
+	}
+    },
+    "nats": {
+	"active": false,
+	"url": "nats://localhost:4222",
+	"timeout": 2.0,
+	"name": "",
+	"verbose": false,
+	"pedantic": false,
+	"ping": {
+	    "interval": 2.0,
+	    "max_out": 3
+	},
+	"reconnect": {
+	    "allow": true,
+	    "max": 10,
+	    "wait": 2.0
+	},
+	"max_pending": 300,
+	"subscriptions": [
+	    {
+		"subject": ">",
+		"id": "$(tid)",
+		"id_key": ""
+	    }
+	]
+    },
+    "group_filter_msg_only": true,
+    "groups": [
+	{
+	    "label": "default",
+	    "filter": "",
+	    "max": 10,
+	    "ttl": 0,
+	    "wrap_rec": false,
+	    "flow": "chglog_cache"
+	}
+    ],
+    "change_log": {
+	"active": true,
+	"dir": "log",
+	"filename": "piper-changes.json",
+	"max_files": 5,
+	"max_size": 100000000,
+	"stdout": false
+    }
+}
